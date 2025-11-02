@@ -3,12 +3,14 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
 export default function ProtectedPage() {
   const [message, setMessage] = useState("");
   const router = useRouter();
 
   useEffect(() => {
-    fetch('http://localhost:8080/protected', {
+    fetch(`${BASE_URL}/protected`, {
       credentials: 'include',
     })
       .then(res => {
@@ -20,7 +22,7 @@ export default function ProtectedPage() {
   }, [router])
 
   const handleLogout = async () => {
-    const res = await fetch('http://localhost:8080/logout', {
+    const res = await fetch(`${BASE_URL}/logout`, {
       method: 'DELETE',
       credentials: 'include',
     })

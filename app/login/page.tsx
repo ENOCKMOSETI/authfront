@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -10,7 +12,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:8080/login", {
+    const res = await fetch(`${BASE_URL}/login`, {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
