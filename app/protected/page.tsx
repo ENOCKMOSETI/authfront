@@ -12,9 +12,6 @@ export default function ProtectedPage() {
   useEffect(() => {
     fetch(`${BASE_URL}/protected`, {
       credentials: 'include',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      }
     })
       .then(res => {
         if (!res.ok) throw new Error('Unauthorized');
@@ -28,9 +25,6 @@ export default function ProtectedPage() {
     const res = await fetch(`${BASE_URL}/logout`, {
       method: 'DELETE',
       credentials: 'include',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      }
     })
     if (res.ok) {
       router.push('/login');
