@@ -13,17 +13,15 @@ export default function LoginPage() {
     const res = await fetch("http://localhost:8080/login", {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ username, password })
-    })
+    });
 
-    const data = await res.json();
-    if (data.token) {
-    //   localStorage.setItem("token", data.token)
-    //   router.push("/protected");
-    // } else {
-    //   alert("Invalid credentials!")
-    console.log(data);
-    
+    if (res.ok) {
+      router.push('/protected');
+    } else {
+      const error = await res.json();
+      alert(error.message || "Failed to login!!")
     }
   }
 

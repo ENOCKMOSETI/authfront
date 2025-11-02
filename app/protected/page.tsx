@@ -8,32 +8,34 @@ export default function ProtectedPage() {
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      router.push('/login');
-      return;
-    }
-
     fetch('http://localhost:8080/protected', {
-      headers: { Authorization: `Bearer ${token}` }
+      credentials: 'include',
     })
       .then(res => {
-        if (res.status === 401) throw new Error('Unauthorized');
+        if (!res.ok) throw new Error('Unauthorized');
         return res.json();
       })
       .then(data => setMessage(data.message))
       .catch(() => router.push('/login'))
-  }, [])
+  }, [router])
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    router.push('/login');
+  const handleLogout = async () => {
+    const res = await fetch('http://localhost:8080/logout', {
+      method: 'DELETE',
+      credentials: 'include',
+    })
+    if (res.ok) {
+      router.push('/login');
+    } else {
+      const error = await res.json();
+      alert(error.message || "Failed to logout!")
+    }
   }
 
   return (
     <>
       <h1>{message || 'Loading...'}</h1>
-      <button onClick={handleLogout} >logout</button>
+      <button onClick={handleLogout}>Logout</button>
     </>
   );
 }
