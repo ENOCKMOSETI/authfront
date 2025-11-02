@@ -14,7 +14,10 @@ export default function LoginPage() {
     e.preventDefault();
     const res = await fetch(`${BASE_URL}/login`, {
       method: "POST",
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+       },
       credentials: 'include',
       body: JSON.stringify({ username, password })
     });
